@@ -57,8 +57,10 @@ exports.addRoomType = async (req, res, next) => {
             data: roomType,
         });
     } catch (err) {
-        // จัดการกับข้อผิดพลาดที่อาจเกิดจาก mongoose validation หรืออื่นๆ
-        console.error(err);
+        
+
+        
+        
         res.status(400).json({ success: false, message: err.message });
     }
 };
