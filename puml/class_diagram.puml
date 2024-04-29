@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+package "Hotel"{
+    class "<<Application>>\nHotelService" as HotelService{}
+
+    class "<<Resource>>\nHotels" as ResourceHotels{
+        <<GET>> +getHotels():Hotel
+        <<POST>> +createHotel():Hotel
+    }
+
+    class "<<Resource>>\nBooking" as ResourceBookings{
+        <<GET>> +getBooking():Booking
+        <<POST>> +createBooking():Booking
+    }
+
+    class "<<Resource>>\nAuth" as ResourceUser{
+        <<POST>> +register():User
+        <<POST>> +login():User
+        <<GET>> +logout():User
+        <<GET>> +me():User
+    }
+
+    class "<<Resource>>\nHotel" as ResourceHotel {
+        <<GET>> +getHotel(): Hotel
+        <<PUT>> +updateHotel(): Hotel
+        <<DELETE>> +deleteHotel(): void
+    }
+
+    class "<<Resource>>\nBooking" as ResourceBooking {
+        <<GET>> +getBooking(): Booking
+        <<PUT>> +updateBooking(): Booking
+        <<DELETE>> +deleteBooking(): void
+    }
+
+    class "<<Representation>>\nHotel" as RepresentationHotel {
+        -name
+        -address
+        -district
+        -province
+        -postalcode
+        -telephone
+        -region
+    }
+
+    class "<<Representation>>\nBooking" as RepresentationBooking {
+        -appDate
+        -user
+        -hotel
+        -createAt
+    }
+    
+    class "<<Representation>>\nUser" as RepresentationUser {
+        -name
+        -email
+        -tel
+        -role
+        -password
+    }
+
+}
+
+HotelService ..> ResourceHotels:"/hotels\n<<Path>>"
+HotelService ..> ResourceBookings:"/bookings\n<<Path>>"
+HotelService ..> ResourceUser: "/auth/{register, login, logout, me}\n<<Path>>"
+ResourceUser ..> RepresentationUser: "<<user>>"
+ResourceHotels ..> ResourceHotel: "/{hotelId}\n<<Path>>"
+ResourceBookings ..> ResourceBooking: "/{bookingId}\n<<Path>>"
+ResourceHotel ..> RepresentationHotel: "<<use>>"
+ResourceBooking ..> RepresentationBooking: "<<use>>"
+
+@enduml

@@ -1,0 +1,23 @@
+    @startuml Register User (POST)
+
+    header Auth Sequence Diagram
+    footer Page %page% of %lastpage%
+    title "Register User (POST)"
+
+    participant "Client" as client
+    participant "<<javaScript>>\n:server" as server
+    participant "<<router>>\n:auth" as routerAuths
+    participant "<<controllers>>\n:auth" as controllersAuths
+    participant "<<model>>\n:User" as modelAuth
+    database "<<MongoDB>>\n:User" as AuthsDatabase
+
+    client-> server ++:req.post('/auth/register')
+    server->routerAuths ++:app.use('/auth',auth)
+    routerAuths -> controllersAuths ++:register()
+    controllersAuths->modelAuth ++: create(req.body) 
+    modelAuth ->AuthsDatabase ++: UserSchema
+    AuthsDatabase --> modelAuth --: User
+    controllersAuths <-- modelAuth --:User
+    controllersAuths->client --: sentTokenResponse(), Response
+
+    @enduml

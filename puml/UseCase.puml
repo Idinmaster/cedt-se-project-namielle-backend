@@ -1,0 +1,74 @@
+@startuml Hotel Booking System Use Case Diagram
+left to right direction
+
+rectangle "Booking System" as BookingSystem{
+    usecase "Register" as register
+    usecase "View\nHotels" as viewHotels
+    usecase "Make\nBooking" as makeBooking
+    usecase "Manage\nHotel" as manageHotel
+    usecase "Log in" as login
+    usecase "Log out" as logout
+    usecase "View\nBooking" as viewBooking
+    usecase "View his/her\nBooking" as viewUserBooking
+    usecase "View Any\nBookings" as viewAllBooking
+    usecase "Edit\nBooking" as editBooking
+    usecase "Edit his/her\nBooking" as editUserBooking
+    usecase "Edit Any\nBookings" as editAllBooking
+    usecase "Delete\nBooking" as deleteBooking
+    usecase "Delete his/her\nBooking" as deleteUserBooking
+    usecase "Delete Any\nBookings" as deleteAllBooking
+    usecase "See a Review" as seeReview
+    usecase "Make a Review" as makeReview
+    usecase "Edit\nReview" as editReview
+    usecase "Edit his/her\nReview" as editUserReview
+    usecase "Edit Any\nReview" as editAllReview
+    usecase "Delete\nReview" as deleteReview
+    usecase "Delete his/her\nReview" as deleteUserReview
+    usecase "Delete Any\nReview" as deleteAllReview
+}
+
+viewBooking ..> viewUserBooking
+viewBooking ..> viewAllBooking
+editBooking ..> editUserBooking
+editBooking ..> editAllBooking 
+deleteBooking ..> deleteUserBooking
+deleteBooking ..> deleteAllBooking 
+editReview ..> editAllReview
+editReview ..> editUserReview
+deleteReview ..> deleteUserReview
+deleteReview ..> deleteAllReview
+
+
+actor "New User" as Nuser
+Nuser -- viewHotels
+Nuser -- register
+Nuser -- seeReview
+
+actor "Registered User" as user
+user -- viewHotels
+user -- makeBooking
+user -- logout
+user--login
+user -- viewUserBooking
+user -- editUserBooking
+user -- deleteUserBooking
+user -- makeReview
+user --seeReview
+user - editUserReview
+user -- deleteUserReview
+
+actor "Admin" as admin
+viewHotels -- admin
+makeBooking -- admin
+manageHotel -- admin
+logout -- admin
+login -- admin
+viewAllBooking -- admin
+editAllBooking -- admin
+deleteAllBooking -- admin
+makeReview -- admin
+seeReview -- admin
+editAllReview -- admin
+deleteAllReview -- admin
+
+@enduml

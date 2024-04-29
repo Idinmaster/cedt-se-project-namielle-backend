@@ -1,0 +1,51 @@
+@startuml
+entity "Hotel" as hotel {
+    *ObjectId _id
+    --
+    *String name
+    *String address
+    *String tel
+    *Number capacity
+    --
+    *HotelSchema.pre()
+    *HotelSchema.virtual()
+}
+
+entity "Booking" as booking {
+    *ObjectId User <<FK>>
+    *ObjectId Hotel <<FK>>
+    *ObjectId _id
+    --
+    *Date appDate
+    *Date createAt <<generated>>
+}
+
+entity "Review" as review {
+    *ObjectId User <<FK>>
+    *ObjectId Hotel <<FK>>
+    *ObjectId _id
+    --
+    *Number stars
+    *String description
+    *Date createAt <<generated>>
+}
+
+entity "User" as user {
+    *Object _id
+    --
+    *String name
+    *String email
+    *String tel
+    *String role
+    *String password
+    *Date createAt <<generated>>
+    --
+    *UserSchema.pre()
+    *UserSchema.methods.getSignedJwtToken()
+    *UserSchema.methods.matchPassword()
+}
+
+hotel ||--o{ booking
+hotel ||--o{ review
+
+@enduml
