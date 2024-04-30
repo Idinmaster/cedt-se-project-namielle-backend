@@ -115,7 +115,7 @@ exports.handleStripeWebhook = async (req, res) => {
         event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
         console.error(err.message);
-        return res.status(400);
+        return res.status(400).json({success: false, message: err.message});
     }
 
     // console.log(event.type);
@@ -193,5 +193,6 @@ const useDiscountCode = async (userDiscountCode) => {
         return 1;
     } catch (error) {
         console.error("Error fetching discount", error);
+        res.status(400).json({success: false, message: err.message })
     }
 };

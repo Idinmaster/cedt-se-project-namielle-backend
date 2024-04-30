@@ -3,8 +3,6 @@ const Booking = require("../models/Booking");
 const RoomType = require("../models/RoomType");
 const fs = require("fs");
 
-
-
 //@desc Get all hotels
 //@route GET /api/v1/hotels
 //@access Public
@@ -150,23 +148,56 @@ exports.getHotel = async (req, res, next) => {
 //@access Private
 exports.createHotel = async (req, res, next) => {
     //console.log("a");
-    var data = req.body; /*
-    if (req.file && req.file.filename) {
-        data.file = req.file.filename;
-    } else {
-        // Handle the error condition here
+    var data = req.body;
+    const { name, city, address, tel, capacity, file } = req.body;
+    // name: {}, city: {}, tel: {}, address: {}, file: {}, capacity: -1
+    // if(!data.name){
+    //     return res.status(400).json({ success: false, message: "Please add a name"});
+    // }else if(data.name.length > 50){
+    //     return res.status(400).json({ success: false, message: "Name can not be more than 50 characaters"});
+    // }
+    // if(!data.city){
+    //     return res.status(400).json({ success: false, message: "Please add a city"});
+    // }else if(data.city.length > 50){
+    //     return res.status(400).json({ success: false, message: "City can not be more than 50 characaters"});
+    // }
+    // if(!data.address){
+    //     return res.status(400).json({ success: false, message: "Please add an address"});
+    // }
+    // if(!data.tel){
+    //     return res.status(400).json({ success: false, message: "Please add a telephone number"});
+    // }
+    // if(!data.capacity){
+    //     return res.status(400).json({ success: false, message: "Please add a capacity"});
+    // }else if(data.capacity <= 0 ){
+    //     return res.status(400).json({ success: false, message: "Capacity must be greater than 0"});
+    // }
+    // if(!data.file){
+    //     return res.status(400).json({ success: false, message: "Please add a picture of the hotel"});
+    // }
+    if (
+        !name ||
+        (name && name.length > 50) ||
+        !city ||
+        (city && city.length > 50) ||
+        !address ||
+        !tel ||
+        !capacity ||
+        capacity <= 0 ||
+        !file
+    ) {
         return res
             .status(400)
-            .json({ error: "Please add a picture to the hotel" });
-    }*/
+            .json({ success: false, message: "Invalid data" });
+    }
     try {
         const hotel = await Hotel.create(data);
         res.status(201).json({
             success: true,
-            data: hotel,
+            data: data,
         });
     } catch (err) {
-        res.status(400).json({ success: false });
+        res.status(400).json({ success: false, message: err.message });
     }
 };
 

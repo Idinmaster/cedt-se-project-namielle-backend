@@ -14,11 +14,11 @@ describe('addRoomType Controller Test', () => {
     beforeEach(() => {
         mockReq = {
             body: {
-                name: "Test Room Type",
-                personLimit: 2,
-                price: 100,
-                roomLimit: 5,
-                hotel: "hotel_id"
+                name: "Delux room",
+                personLimit: 3,
+                price: 2000,
+                roomLimit: 10,
+                hotel: "0A Hotel"
             }
         };
         mockRes = {
@@ -30,7 +30,7 @@ describe('addRoomType Controller Test', () => {
 
 
     it('should create a room type successfully', async () => {
-        RoomType.create.mockResolvedValue(mockReq.body); // Assume successful creation returns the request body
+        RoomType.create.mockResolvedValue(mockReq.body);
         
         await addRoomType(mockReq, mockRes, mockNext);
         
@@ -57,7 +57,7 @@ describe('addRoomType Controller Test', () => {
 
 
     it('should handle missing or invalid fields', async () => {
-        const invalidReq = { body: { name: "", personLimit: 0, price: -100, roomLimit: 0, hotel: "" } };
+        const invalidReq = { body: { name: "", personLimit: -1, price: -1, roomLimit: -1, hotel: "" } };
 
         await addRoomType(invalidReq, mockRes, mockNext);
         

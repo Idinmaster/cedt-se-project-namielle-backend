@@ -85,19 +85,27 @@ exports.getDiscount = async (req, res, next) => {
 
 exports.createDiscount = async (req, res, next) => {
     var data = req.body;
-    /*if (req.file && req.file.filename) {
-        data.file = req.file.filename;
-    } else {
-        // Handle the error condition here
-        return res
-            .status(400)
-            .json({ error: "Please add a picture to the discount" });
-    }*/
-    const discount = await Discount.create(data);
-    res.status(201).json({
-        success: true,
-        data: discount,
+
+    const oldDiscount = await Discount.findOne({
+        code: data.code
     });
+
+    if(oldDiscount){
+        const discount = await Discount.findByIdAndUpdate(oldDiscount, data, {
+            new: true,
+            runValidators: true,
+        });
+        res.status(201).json({
+            success: true,
+            data: discount,
+        });
+    } else {
+        const discount = await Discount.create(data);
+        res.status(201).json({
+            success: true,
+            data: discount,
+        });
+    }
 };
 
 exports.updateDiscount = async (req, res, next) => {

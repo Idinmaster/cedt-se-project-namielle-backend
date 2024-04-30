@@ -34,7 +34,7 @@ const HotelSchema = new mongoose.Schema(
         },
         price: {
             type: Number,
-            required: [true, "Please add a price"],
+            default: 0,
         },
         bookCount: {
             type: Number,

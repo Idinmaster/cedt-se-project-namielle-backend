@@ -16,7 +16,7 @@ const DiscountSchema = new mongoose.Schema({
         required: [true, "Please add a code"],
     },
     percentage: {
-        type: String,
+        type: Number,
         required: [true, "Please add a discount-percentage"],
     },
     image: {

@@ -7,13 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install node module
-RUN npm install
+RUN npm ci
 
 # Copy all files to WORKDIR
 COPY . .
 
 # Expose Port
-EXPOSE 5000
+EXPOSE 3000
 
 # Start the application
 CMD ["npm", "start"]
