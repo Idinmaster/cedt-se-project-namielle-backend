@@ -70,8 +70,8 @@ exports.createCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         line_items: lineItems,
         mode: "payment",
-        success_url: `${process.env.FRONTEND_URL}mybooking?success=true`,
-        cancel_url: `${process.env.FRONTEND_URL}cart?cancel=true`,
+        success_url: `${process.env.HOST}:3000/mybooking?success=true`,
+        cancel_url: `${process.env.HOST}:3000/cart?cancel=true`,
     });
 
     payload.cartItems.map(async (product) => {

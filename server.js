@@ -40,7 +40,6 @@ app.use("/api/v1/roomTypes", roomTypeRoutes);
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-const PORT = process.env.PORT || 5000;
 const swaggerOptions = {
     swaggerDefinition: {
         openapi: "3.0.0",
@@ -52,7 +51,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: process.env.HOST + ':' + PORT + '/api/v1',
+                url: "http://localhost:5000/api/v1",
             },
         ],
     },
@@ -63,6 +62,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+const PORT = process.env.PORT || 5000;
 const server = app.listen(
     PORT,
     console.log(
@@ -76,3 +76,5 @@ process.on("unhandledRejection", (err, promise) => {
     console.log(`Error: ${err.message}`);
     server.close(() => process.exit(1));
 });
+
+module.exports = server;

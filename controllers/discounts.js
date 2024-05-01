@@ -85,25 +85,32 @@ exports.getDiscount = async (req, res, next) => {
 
 exports.createDiscount = async (req, res, next) => {
     var data = req.body;
-
-    const oldDiscount = await Discount.findOne({
-        code: data.code
-    });
-
-    if(oldDiscount){
-        const discount = await Discount.findByIdAndUpdate(oldDiscount, data, {
-            new: true,
-            runValidators: true,
+    
+    try {
+        const oldDiscount = await Discount.findOne({
+            code: data.code
         });
-        res.status(201).json({
-            success: true,
-            data: discount,
-        });
-    } else {
-        const discount = await Discount.create(data);
-        res.status(201).json({
-            success: true,
-            data: discount,
+    
+        if(oldDiscount){
+            const discount = await Discount.findByIdAndUpdate(oldDiscount, data, {
+                new: true,
+                runValidators: true,
+            });
+            res.status(201).json({
+                success: true,
+                data: discount,
+            });
+        } else {
+            const discount = await Discount.create(data);
+            res.status(201).json({
+                success: true,
+                data: discount,
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
         });
     }
 };
